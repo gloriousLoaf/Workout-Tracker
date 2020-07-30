@@ -1,12 +1,12 @@
 /* API Router */
 const router = require('express').Router();
-const Workout = require('../models/workout.js');
-const Exercise = require('../models/exercise.js');
+const db = require('../models');
 
 /* GET Routes */
-// Latest workout on initial load
+// Latest workout on initial load - CAN'T get duration to populate :(
 router.get("/api/workouts", (req, res) => {
-    Workout.find({}).sort({ day: -1 })
+    db.Workout.find({})
+        .sort({ day: -1 })
         .limit(1)
         .then(latest => {
             res.json(latest);
@@ -15,11 +15,12 @@ router.get("/api/workouts", (req, res) => {
             res.json(err);
         });
 });
+
 // Stats Page
 router.get('/api/workouts/range', (req, res) => {
-    // find limited to recent week, decending
-    Workout.find({})
-        .sort({ _id: -1 })
+    // find, range limited to recent week, decending
+    db.Workout.find({})
+        .sort({ _id: 1 })
         .limit(7)
         .populate("exercises")
         .then(lastWeek => {
@@ -31,24 +32,22 @@ router.get('/api/workouts/range', (req, res) => {
 });
 
 /* PUT Route - update by id */
-router.put('/api/workouts/:id', ({ body, params }, res) => {
-    Exercise.create(body)
-        .then(({ _id }) =>
-            Workout.findByIdAndUpdate(params.id, { $push: { exercises: _id } }, { new: true })
-        )
-        .then(dbWorkout => {
-            res.json(dbWorkout);
+router.put("/api/workouts/:id", ({ body, params }, res) => {
+    // is this where I am messing up the duration????
+    db.Workout.findByIdAndUpdate(params.id, { $push: { exercises: body } }, { useFindAndModify: false })
+        .then((updateWorkout) => {
+            res.json(updateWorkout);
         })
-        .catch(err => {
+        .catch((err) => {
             res.json(err);
-        })
+        });
 });
 
 /* POST Route - new workout */
 router.post('/api/workouts', (req, res) => {
-    Workout.create({})
-        .then(dbWorkout => {
-            res.json(dbWorkout);
+    db.Workout.create({})
+        .then(newWorkout => {
+            res.json(newWorkout);
         })
         .catch(({ err }) => {
             res.json(err)

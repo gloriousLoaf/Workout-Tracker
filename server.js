@@ -13,8 +13,8 @@ app.use(express.static('public'));
 // add logger
 app.use(logger('dev'));
 // Router
-app.use(require('./routes/api.js'));
-app.use(require('./routes/html.js'));
+app.use(require('./routes/apiRoutes.js'));
+app.use(require('./routes/htmlRoutes.js'));
 
 /* Mongoose Connection to DB */
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/workoutTrackerDB', { useNewUrlParser: true });
