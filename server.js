@@ -1,32 +1,26 @@
-// some boilerplate to get started
-const express = require("express");
-const logger = require("morgan");
-const mongoose = require("mongoose");
+/* Requirements */
+const express = require('express');
+const logger = require('morgan');
+const mongoose = require('mongoose');
+// models from index.js
+const db = require('./models');
 
-const PORT = process.env.PORT || 3000;
-
-// const User = require("./userModel.js");
+/* Express App */
 const app = express();
-
-app.use(logger("dev"));
-
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.static('public'));
+// add logger
+app.use(logger('dev'));
+// Router
+app.use(require('./routes/api.js'));
+app.use(require('./routes/html.js'));
 
-app.use(express.static("public"));
+/* Mongoose Connection to DB */
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/workoutTrackerDB', { useNewUrlParser: true });
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/userdb", { useNewUrlParser: true });
-
-// app.post("/submit", ({ body }, res) => {
-//   User.create(body)
-//     .then(dbUser => {
-//       res.json(dbUser);
-//     })
-//     .catch(err => {
-//       res.json(err);
-//     });
-// });
-
+/* Start Server! */
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`App running on port ${PORT}!`);
+    console.log(`App listening on port ${PORT}!`);
 });
