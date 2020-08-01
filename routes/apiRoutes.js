@@ -3,10 +3,13 @@ const router = require('express').Router();
 const db = require('../models');
 
 /* GET Routes */
-// Latest workout on initial load - CAN'T get duration to populate :(
+// Latest workout on initial load
+/* CAN'T get duration to populate :( see console on index.html - 'Last Workout'
+    page, database is definitely capturing it, API is sending it, but something
+    maybe in the prewritten material is just not rendering it */
 router.get("/api/workouts", (req, res) => {
     db.Workout.find({})
-        .sort({ day: -1 })
+        .sort({ $natural: -1 })
         .limit(1)
         .then(latest => {
             res.json(latest);
@@ -33,8 +36,8 @@ router.get('/api/workouts/range', (req, res) => {
 
 /* PUT Route - update by id */
 router.put("/api/workouts/:id", ({ body, params }, res) => {
-    // is this where I am messing up the duration????
-    db.Workout.findByIdAndUpdate(params.id, { $push: { exercises: body } }, { useFindAndModify: false })
+    // grab the workout by id and push new exercises
+    db.Workout.findByIdAndUpdate(params.id, { $push: { exercises: body } })
         .then((updateWorkout) => {
             res.json(updateWorkout);
         })

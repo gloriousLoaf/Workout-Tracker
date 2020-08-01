@@ -2,8 +2,6 @@
 const express = require('express');
 const logger = require('morgan');
 const mongoose = require('mongoose');
-// models from index.js
-const db = require('./models');
 
 /* Express App */
 const app = express();
@@ -17,7 +15,7 @@ app.use(require('./routes/apiRoutes.js'));
 app.use(require('./routes/htmlRoutes.js'));
 
 /* Mongoose Connection to DB */
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/workoutTrackerDB', { useNewUrlParser: true });
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/workout', { useNewUrlParser: true, useFindAndModify: false });
 
 /* Start Server! */
 const PORT = process.env.PORT || 3000;
