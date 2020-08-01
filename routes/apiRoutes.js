@@ -4,9 +4,6 @@ const db = require('../models');
 
 /* GET Routes */
 // Latest workout on initial load
-/* CAN'T get duration to populate :( see console on index.html - 'Last Workout'
-    page, database is definitely capturing it, API is sending it, but something
-    maybe in the prewritten material is just not rendering it */
 router.get("/api/workouts", (req, res) => {
     db.Workout.find({})
         .sort({ $natural: -1 })

@@ -24,9 +24,7 @@ const WorkoutSchema = new Schema({
                 trim: true,
                 required: true
             },
-            /* THIS!!! wtf? see console on index.html / 'Last Workout' page,
-                database is definitely capturing it, API is sending it, but something
-                maybe in the prewritten material is just not rendering it */
+            // captured for every exercise, processed in virtual below
             duration: {
                 type: Number,
                 trim: true,
@@ -49,8 +47,21 @@ const WorkoutSchema = new Schema({
             }
         }
     ]
+},
+{
+    // still researching how this actually works!
+    toJSON: {
+        virtuals: true
+    }
 });
 
+// dynamic property for 'const lastWorkout' in public/workout.js
+WorkoutSchema.virtual('totalDuration').get(function () {
+    // reduce array to sum of all exercise durations
+    return this.exercises.reduce((total, exercise) => {
+      return total + exercise.duration;
+    }, 0);
+});
 
 const Workout = mongoose.model('Workout', WorkoutSchema);
 
