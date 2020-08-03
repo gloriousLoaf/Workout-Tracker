@@ -18,7 +18,9 @@ This app uses a NoSQL (MongoDB) database to store user workout sessions, with de
 <p>&nbsp;</p>
 
 ## Installation
-To install, clone this repo and setup a MongoDB instance on your local machine. Open Bash or your prefered CLI, and run ``` mongod ``` to instantiate. From a different terminal, navigate to the root folder of this repo, run ``` npm install ``` to get the dependencies. Then run ``` node server ``` to start the server on localhost:3000. Navigate to this location in your browser and begin your workout plan! (Does coding count as resistance training?) This app will be deployed live using **ObjectRocket on Heroku**, see it in action (here)[heroku link available by 08/4/2020]. See Heroku's documentation on hosting your app through their PaaS. 
+To install, clone this repo and setup a MongoDB instance on your local machine. Open Bash or your prefered CLI, and run ``` mongod ``` to instantiate. From a different terminal, navigate to the root folder of this repo, run ``` npm install ``` to get the dependencies. Then run ``` node server ``` to start the server on localhost:3000. Navigate to this location in your browser and begin your workout plan! (Does coding count as resistance training?)
+
+This app is deployed live using **mLab on Heroku**, see it in action 👉 [HERE](https://mongoworkout-tracker.herokuapp.com). See Heroku's documentation on hosting your app through their PaaS. 
 <p>&nbsp;</p>
 
 ## Usage
@@ -33,7 +35,7 @@ Open Source, use and modify as you see fit.
 <p>&nbsp;</p>
 
 ## Contributors
-Just myself, the author.
+UC Davis Full Stack Bootcamp / Trilogy Education.
 <p>&nbsp;</p>
 
 ## Questions?
