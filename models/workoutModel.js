@@ -48,18 +48,19 @@ const WorkoutSchema = new Schema({
         }
     ]
 },
-{
-    // still researching how this actually works!
-    toJSON: {
-        virtuals: true
+    {
+        /* Thanks to Marcelo for explaining the .virtual() property */
+        toJSON: {
+            virtuals: true
+        }
     }
-});
+);
 
 // dynamic property for 'const lastWorkout' in public/workout.js
 WorkoutSchema.virtual('totalDuration').get(function () {
     // reduce array to sum of all exercise durations
     return this.exercises.reduce((total, exercise) => {
-      return total + exercise.duration;
+        return total + exercise.duration;
     }, 0);
 });
 
